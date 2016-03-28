@@ -28,6 +28,11 @@ var inputs = [    { pin: '11', gpio: '17', value: 1 },
                   { pin: '12', gpio: '18', value: 0 }
                 ];
 
+//tellstick
+var telldus = require('telldus')
+
+
+
 // ------------------------------------------------------------------------
 // configure Express to serve index.html and any other static pages stored 
 // in the home directory
@@ -37,7 +42,16 @@ app.use(express.static(__dirname));
 app.get('/inputs/:id', function (req, res) {
   // send an object as a JSON string
   console.log('id = ' + req.params.id);
+
   res.send(inputs[req.params.id]);
+telldus.getDevices(function(err, devices){
+	if (err) {
+		console.log('Error: ' + err);
+} 	else {
+		console.log(devices);
+}
+	
+});
 }); // apt.get()
 
 // Express route for incoming requests for a list of all inputs
@@ -66,3 +80,4 @@ app.use(function (err, req, res, next) {
 //
 app.listen(3000);
 console.log('App Server is listening on port 3000');
+
