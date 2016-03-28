@@ -38,6 +38,28 @@ var telldus = require('telldus')
 // in the home directory
 app.use(express.static(__dirname));
 
+app.get('/status/', function (req, res) {
+	telldus.getDevices(function(err, devices){
+	if (err) {
+		console.log('Error: ' + err);
+} 	else {
+		console.log(devices);
+		res.status(200).send(devices);
+}
+	
+});
+	
+});
+app.get('/status/on/:id', function (req, res) {
+	telldus.turnOnSync(req.params.id)
+	
+});
+app.get('/status/off/:id', function (req, res) {
+	var deviceId = req.params.id;
+	telldus.turnOffSync(deviceId)
+	
+});
+
 // Express route for incoming requests for a single input
 app.get('/inputs/:id', function (req, res) {
   // send an object as a JSON string
